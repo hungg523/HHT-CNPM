@@ -2,7 +2,7 @@
 
 namespace AppleEShop.Infrastructure
 {
-    public class SessionExtensions
+    public static class SessionExtensions
     {
         public static void SetJson(this ISession session, string key, object value)
         {
