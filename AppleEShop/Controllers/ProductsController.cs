@@ -43,5 +43,38 @@ namespace AppleEShop.Controllers
                 }
              );
         }
+
+        public async Task<IActionResult> Index1()
+        {
+            IEnumerable<Product> products = _context.Product.Include(p => p.Category); // Lấy danh sách sản phẩm
+            return View(products);
+        }
+        public IActionResult Viewbestsell() //hiển thị danh sách bestseller
+        {
+            // Giả sử bạn lấy danh sách các sản phẩm bán chạy từ database
+            IEnumerable<Product> topSellingProducts = _context.Product.Include(p => p.Category).Include(p => p.IsBestSeller);
+            // Lưu danh sách vào ViewBag để sử dụng trong view
+            ViewBag.TopSellingProducts = topSellingProducts;
+            return View();
+        }
+
+        // GET: Products/Details/5
+        public async Task<IActionResult> Details(int? id, int? page)
+        {
+            if (id == null || _context.Product == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Product
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            
+            return View(product);
+        }
     }
 }
