@@ -1,9 +1,9 @@
 ﻿using System.Globalization;
 using System.Text;
 
-namespace AppleEShop.Helper
+namespace AppleEShop
 {
-    public class Helper
+	public static class Helper
     {
         public static string MoneyFormat(decimal m)
         {
