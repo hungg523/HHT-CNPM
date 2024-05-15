@@ -10,7 +10,10 @@
         var users = User.Claims.FirstOrDefault();
         userId = (users != null ? int.Parse(users.ValueType) : 0);
     }
-    
+    var lstComment = (List<AppleEShop.Models.Comment>)ViewBag.ListComment;
+    double totalRating = (double)ViewBag.TotalRating;
+    int totalRatingAll = (int)ViewBag.total;
+    var modelTotalRating = (AppleEShop.Models.CountRatingModel)ViewBag.ModelRating;
 
     string description = Model.Description;
     int maxLength = 50;
@@ -53,7 +56,16 @@
             {
                 <h2 class="product-name">@Model.Name</h2>
             }
-            
+            <div>
+                <div class="product-rating">
+                    <i class="fa @(totalRating <= 0 ? "fa-star-o" : (totalRating > 0 && totalRating < 1 ? "fa-star-o" : "fa-star"))"></i>
+                    <i class="fa @(totalRating <= 1 ? "fa-star-o": (totalRating < 2 ? "fa-star-o" : "fa-star" ))"></i>
+                    <i class="fa @(totalRating <= 2 ? "fa-star-o" : (totalRating < 3 ? "fa-star-o" : "fa-star"))"></i>
+                    <i class="fa @(totalRating <= 3 ? "fa-star-o" : (totalRating < 4 ? "fa-star-o" : "fa-star"))"></i>
+                    <i class="fa @(totalRating <= 4 ? "fa-star-o" : (totalRating < 5 ? "fa-star-o" : "fa-star"))"></i>
+                </div>
+                <p class="review-link">@totalRatingAll Đáng giá</p>
+            </div>
             @if (Model.IsSale)
             {
                 <div>
@@ -125,7 +137,7 @@
             <ul class="tab-nav">
                 <li class="active"><a data-toggle="tab" href="#tab1">Mô tả</a></li>
                 <li><a data-toggle="tab" href="#tab2">Chi tiết</a></li>
-                <li><a data-toggle="tab" href="#tab3">Đánh giá </a></li>
+                <li><a data-toggle="tab" href="#tab3">Đánh giá (@totalRatingAll)</a></li>
             </ul>
             <!-- /product tab nav -->
             <!-- product tab content -->
@@ -152,10 +164,162 @@
                 <div id="tab3" class="tab-pane fade in">
                     <div class="row">
                         <!-- Rating -->
+                        <div class="col-md-3">
+                            <div id="rating">
+                                <div class="rating-avg">
+                                    <span>@totalRating</span>
+                                    <div class="rating-stars">
+                                        <i class="fa @(totalRating <= 0 ? "fa-star-o" : (totalRating > 0 && totalRating < 1 ? "fa-star-o" : "fa-star"))"></i>
+                                        <i class="fa @(totalRating <= 1 ? "fa-star-o": (totalRating < 2 ? "fa-star-o" : "fa-star" ))"></i>
+                                        <i class="fa @(totalRating <= 2 ? "fa-star-o" : (totalRating < 3 ? "fa-star-o" : "fa-star"))"></i>
+                                        <i class="fa @(totalRating <= 3 ? "fa-star-o" : (totalRating < 4 ? "fa-star-o" : "fa-star"))"></i>
+                                        <i class="fa @(totalRating <= 4 ? "fa-star-o" : (totalRating < 5 ? "fa-star-o" : "fa-star"))"></i>
 
+                                    </div>
+                                </div>
+                                @if (modelTotalRating != null)
+                                {
+                                    var rating = modelTotalRating;
+                                    <ul class="rating">
+                                        <li>
+                                            <div class="rating-stars">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="rating-progress">
+                                                <div style="width: @rating.PercentFive%;"></div>
+                                            </div>
+                                            <span class="sum">@rating.TotalFive</span>
+                                        </li>
+                                        <li>
+                                            <div class="rating-stars">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <div class="rating-progress">
+                                                <div style="width: @rating.PercentFour%;"></div>
+                                            </div>
+                                            <span class="sum">@rating.TotalFour</span>
+                                        </li>
+                                        <li>
+                                            <div class="rating-stars">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <div class="rating-progress">
+                                                <div style="width: @rating.PercentThree%;"></div>
+                                            </div>
+                                            <span class="sum">@rating.TotalThree</span>
+                                        </li>
+                                        <li>
+                                            <div class="rating-stars">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <div class="rating-progress">
+                                                <div style="width: @rating.PercentTwo%;"></div>
+                                            </div>
+                                            <span class="sum">@rating.TotalTwo</span>
+                                        </li>
+                                        <li>
+                                            <div class="rating-stars">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                                <i class="fa fa-star-o"></i>
+                                            </div>
+                                            <div class="rating-progress">
+                                                <div style="width: @rating.PercentOne%;"></div>
+                                            </div>
+                                            <span class="sum">@rating.TotalOne</span>
+                                        </li>
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="reviews">
+                                <ul class="reviews">
+                                    @if (lstComment != null && lstComment.Count > 0)
+                                    {
+                                        foreach (var item in lstComment)
+                                        {
+                                            <li>
+                                                <div class="review-heading">
+                                                    <h5 class="name">@item.UserName</h5>
+                                                    <p class="date">@item.DateCreated.ToString("dd-MM-yyyy hh:mm")</p>
+                                                    <div class="review-rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa @(item.Rating > 1 ? "fa-star" : "fa-star-o")"></i>
+                                                        <i class="fa @(item.Rating > 2 ? "fa-star" : "fa-star-o")"></i>
+                                                        <i class="fa @(item.Rating > 3 ? "fa-star" : "fa-star-o")"></i>
+                                                        <i class="fa @(item.Rating > 4 ? "fa-star" : "fa-star-o")"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="review-body">
+                                                    <p>@item.Content</p>
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                                <!--Phân trang-->
+
+                                <ul class="reviews-pagination">
+                                    @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                                    {
+                                        <li class="@(i == ViewBag.CurrentPage ? "active" : "")"><a href="@Url.Action("Details", new { page = i })">@i</a></li>
+                                    }
+                                    @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+                                    {
+                                        <li><a href="@Url.Action("Details", new { page = ViewBag.CurrentPage + 1 })"><i class="fa fa-angle-right"></i></a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
                         <!-- /Reviews -->
                         <!-- Review Form -->
+                        <div class="col-md-3">
+                            <div id="review-form">
+                                @if (userId > 0)
+                                {
+                                    <form class="review-form" asp-action="RatingComment" asp-controller="Products">
+                                        <input type="hidden" name="ProductId" value="@Model.Id">
+                                        <input type="hidden" name="UserId" value="@userId">
+                                        <textarea class="input" name="Content" placeholder="Bình luận của bạn"></textarea>
+                                        <div class="input-rating">
+                                            <span>Đánh giá của bạn: </span>
+                                            <div class="stars">
+                                                <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+                                                <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
+                                                <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
+                                                <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
+                                                <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+                                            </div>
+                                        </div>
+                                        <button class="primary-btn">Đăng</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <a href="/Users/Login">Đăng nhập</a>
+                                }
 
+                            </div>
+                        </div>
                         <!-- /Review Form -->
                     </div>
                 </div>
